@@ -79,9 +79,10 @@ WSInspect is a powerful WebSocket debugging and testing tool that allows develop
    - WebSocket proxy for traffic inspection
    - Business logic services
 
-3. **Database (SQLite)**
+3. **Database (PostgreSQL)**
    - Stores sessions, messages, fuzz tests
-   - Persistent storage using GORM
+   - Production-grade with connection pooling
+   - Docker volume for persistence
 
 ---
 
@@ -96,7 +97,7 @@ WSInspect is a powerful WebSocket debugging and testing tool that allows develop
 - npm or yarn
 
 ### For Database:
-- SQLite (included, no setup needed)
+- PostgreSQL 15+ (included in Docker)
 
 ---
 
@@ -124,7 +125,7 @@ go mod tidy
 The project uses these key dependencies:
 - **Gin** - HTTP web framework (like Express.js in Node.js)
 - **GORM** - ORM for database operations
-- **SQLite** - Database driver
+- **PostgreSQL** - Production-grade database
 - **Cobra** - CLI command framework
 - **Viper** - Configuration management
 - **Gorilla WebSocket** - WebSocket handling
@@ -631,7 +632,7 @@ type Reader interface {
 
 #### 1. GORM (ORM for Database)
 
-GORM is an ORM (Object-Relational Mapping) library that lets you work with databases using Go structs.
+GORM is an ORM (Object-Relational Mapping) library that lets you work with databases using Go structs. This project uses PostgreSQL for production-grade support.
 
 ```go
 // Define a model (struct becomes a database table)
@@ -641,8 +642,16 @@ type Session struct {
     Status       string    `gorm:"default:active" json:"status"`
 }
 
-// Create database connection
-db, err := gorm.Open(sqlite.Open("database.db"), &gorm.Config{})
+// Create database connection (PostgreSQL)
+db, err := gorm.Open(postgres.Open(
+    "host=localhost user=postgres password=pass dbname=wsinspect port=5432 sslmode=disable",
+), &gorm.Config{})
+
+// Connection pool settings for production
+sqlDB, _ := db.DB()
+sqlDB.SetMaxOpenConns(25)
+sqlDB.SetMaxIdleConns(10)
+sqlDB.SetConnMaxLifetime(5 * 60 * 1000)
 
 // Auto-migrate (create tables automatically)
 db.AutoMigrate(&Session{})
@@ -1056,10 +1065,11 @@ go run main.go start --port 9000
 
 WSInspect is a comprehensive WebSocket debugging tool built with:
 
-- **Backend:** Go + Gin + GORM + SQLite
+- **Backend:** Go + Gin + GORM + PostgreSQL
 - **Frontend:** React + Vite + Tailwind + TypeScript
 - **WebSocket:** Gorilla WebSocket library
 - **Architecture:** REST API + WebSocket Hub pattern
+- **Database:** PostgreSQL with connection pooling
 
 This guide covered:
 - ✅ What WSInspect is and what it does

@@ -1,38 +1,30 @@
 server:
-  host: 0.0.0.0
-  port: 8080
+  port: "8080"
+  host: "0.0.0.0"
 
 database:
-  type: sqlite
-  path: ./wsinspect.db
+  # For local development, use individual settings
+  # For Docker, use DATABASE_URL environment variable
+  type: postgres
+  host: localhost
+  port: 5432
+  user: wsinspect
+  password: wsinspect_password
+  name: wsinspect_db
+  sslmode: disable
+
+  # Connection pool settings (production-grade)
+  max_open_conns: 25
+  max_idle_conns: 10
+  conn_max_lifetime: 300 # seconds
+  conn_max_idle_time: 60 # seconds
 
 proxy:
-  target: ws://localhost:3000
+  target: "ws://localhost:3000"
   buffer_size: 8192
-  timeout: 30s
 
 session:
   retention_days: 30
 
 log:
   level: info
-  format: json
-  output: stdout
-
-cors:
-  enabled: true
-  allowed_origins:
-    - http://localhost:5173
-    - http://localhost:3000
-  allowed_methods:
-    - GET
-    - POST
-    - PUT
-    - DELETE
-  allowed_headers:
-    - Content-Type
-    - Authorization
-
-rate_limit:
-  enabled: true
-  requests_per_minute: 100

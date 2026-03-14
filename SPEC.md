@@ -466,7 +466,7 @@ Session storage options:
 Local:
 
 ```
-SQLite
+PostgreSQL
 file system
 ```
 
@@ -474,7 +474,7 @@ Cloud (optional future):
 
 ```
 object storage
-database
+PostgreSQL database
 ```
 
 Retention policies configurable.

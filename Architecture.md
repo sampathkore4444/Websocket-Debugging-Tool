@@ -15,7 +15,7 @@ WSInspect is a developer tool for **recording, inspecting, modifying, and replay
 | **Language** | [Go 1.21+](https://go.dev/) | High performance, native concurrency with goroutines |
 | **WebSocket Library** | [gorilla/websocket](https://github.com/gorilla/websocket) | Mature, battle-tested WebSocket implementation |
 | **Web Framework** | [Gin](https://gin-gonic.com/) | Fast, minimalist HTTP web framework |
-| **Database** | [SQLite](https://www.sqlite.org/) (local) / [PostgreSQL](https://www.postgresql.org/) (cloud) | Session storage, configurable per deployment |
+| **Database** | [PostgreSQL](https://www.postgresql.org/) | Session storage, production-grade with connection pooling |
 | **ORM** | [GORM](https://gorm.io/) | Full-featured ORM for Go |
 | **Caching** | [Redis](https://redis.io/) | Real-time communication and caching |
 | **Configuration** | [Viper](https://github.com/spf13/viper) | Complete configuration solution |
