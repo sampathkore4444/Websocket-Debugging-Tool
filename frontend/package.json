@@ -14,7 +14,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.20.0",
     "zustand": "^4.4.7",
-    "axios": "^1.6.2",
+    "axios": "^1.15.0",
     "recharts": "^2.10.3",
     "@monaco-editor/react": "^4.6.0",
     "clsx": "^2.0.0",
